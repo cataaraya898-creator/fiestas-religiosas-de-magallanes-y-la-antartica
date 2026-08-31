@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiestas Religiosas de Magallanes y la Antártica Chilena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+            --accent-amber: #fbbf24;
+            --accent-rose: #fb7185;
+            --accent-emerald: #34d399;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: #090d16;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(192, 132, 252, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(52, 211, 153, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+            padding: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #c084fc, #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--tag-color, #38bdf8), transparent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .card-date {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            white-space: nowrap;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .card-body {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.88rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item strong {
+            color: #e2e8f0;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-punta-arenas { background: rgba(192, 132, 252, 0.2); color: var(--accent-purple); border: 1px solid rgba(192, 132, 252, 0.4); }
+        .tag-regional { background: rgba(52, 211, 153, 0.2); color: var(--accent-emerald); border: 1px solid rgba(52, 211, 153, 0.4); }
+        .tag-otras { background: rgba(251, 191, 36, 0.2); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.4); }
+
+        .btn-detail {
+            width: 100%;
+            padding: 0.7rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-detail:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-right: 2.5rem;
+        }
+
+        .modal-sub {
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.2rem;
+        }
+
+        .modal-section h4 {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-section p {
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            max-width: 1200px;
+            margin: 3rem auto 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .filter-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Fiestas Religiosas de Magallanes</h1>
+        <p>Explora el patrimonio cultural, espiritual y las tradiciones de la Región de Magallanes y de la Antártica Chilena.</p>
+    </header>
+
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar por fiesta, santo, localidad o fecha...">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterData('all')">Todas</button>
+            <button class="filter-btn" onclick="filterData('Punta Arenas')">Punta Arenas</button>
+            <button class="filter-btn" onclick="filterData('Toda la región')">Toda la Región</button>
+            <button class="filter-btn" onclick="filterData('Otras')">Otras Localidades</button>
+        </div>
+    </div>
+
+    <div class="grid" id="festivalsGrid"></div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-sub" id="modalSub"></div>
+            
+            <div class="modal-section">
+                <h4>Fecha y Ubicación</h4>
+                <p id="modalDateLoc"></p>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Historia y Origen</h4>
+                <p id="modalHistory"></p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Actividades Principales</h4>
+                <p id="modalActivities"></p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Importancia Comunitaria</h4>
+                <p id="modalImportance"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Diócesis de Magallanes | Registro Tradicional e Histórico de las Celebraciones Religiosas Australes</p>
+    </footer>
+
+    <script>
+        const festivals = [
+            {
+                id: 1,
+                nombre: "Fiesta de San Sebastián",
+                localidad: "Punta Arenas",
+                fecha: "20 de enero",
+                santo: "San Sebastián mártir",
+                actividades: "Eucaristía, peregrinación, procesión, oración y bendición tradicional de automóviles.",
+                historia: "San Sebastián es venerado como mártir y protector. En Punta Arenas existe un santuario dedicado a él en el sector norte.",
+                origen: "La devoción forma parte de la tradición católica y se consolidó alrededor de su santuario.",
+                importancia: "Una de las celebraciones más tradicionales de Punta Arenas que reúne a numerosos peregrinos.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 2,
+                nombre: "Fiesta de San Juan Bosco",
+                localidad: "Punta Arenas",
+                fecha: "31 de enero",
+                santo: "San Juan Bosco",
+                actividades: "Misas, encuentros comunitarios, actividades educativas y oración salesiana.",
+                historia: "Fundador de la familia salesiana, institución con fuerte presencia educativa y religiosa en Magallanes.",
+                origen: "Ligada a la llegada de sacerdotes y comunidades salesianas a la región.",
+                importancia: "Especial trascendencia para la comunidad educativa salesiana magallánica.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 3,
+                nombre: "Virgen de Lourdes",
+                localidad: "Punta Arenas (Miraflores)",
+                fecha: "11 de febrero",
+                santo: "Nuestra Señora de Lourdes",
+                actividades: "Eucaristía, oración y peticiones especialmente por los enfermos.",
+                historia: "Recuerda las apariciones a Santa Bernardita Soubirous en Lourdes, Francia (1858).",
+                origen: "Extendida desde Francia a las comunidades católicas de Magallanes.",
+                importancia: "Celebración de gran fe y esperanza por la salud física y espiritual.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 4,
+                nombre: "Fiesta de San José",
+                localidad: "Punta Arenas",
+                fecha: "19 de marzo",
+                santo: "San José",
+                actividades: "Misas, oraciones, novenas y encuentros comunitarios.",
+                historia: "Esposo de María y padre adoptivo de Jesús.",
+                origen: "Devoción desarrollada desde los primeros siglos del cristianismo.",
+                importancia: "Ejemplo de trabajador, padre y protector del hogar.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 5,
+                nombre: "Cristo Obrero",
+                localidad: "Punta Arenas",
+                fecha: "1 de mayo",
+                santo: "Cristo Obrero",
+                actividades: "Eucaristía, oración por los trabajadores y encuentros en la parroquia.",
+                historia: "Relaciona directamente la figura de Jesús con el mundo laboral.",
+                origen: "Vinculada a reconocer la dignidad intrínseca de los trabajadores.",
+                importancia: "Une la fe con el trabajo diario y la protección de las familias trabajadoras.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 6,
+                nombre: "Nuestra Señora de Fátima",
+                localidad: "Punta Arenas",
+                fecha: "13 de mayo",
+                santo: "Nuestra Señora de Fátima",
+                actividades: "Eucaristías, rezo del santo rosario y actividades parroquiales.",
+                historia: "Recuerda las apariciones en Fátima, Portugal (1917).",
+                origen: "Difundida mundialmente y arraigada en el sector parroquial local.",
+                importancia: "Gran convocatoria de devoción mariana.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 7,
+                nombre: "Fiesta de María Auxiliadora",
+                localidad: "Principalmente Punta Arenas",
+                fecha: "24 de mayo",
+                santo: "María Auxiliadora",
+                actividades: "Eucaristía, procesión masiva por la ciudad, cantos y bailes.",
+                historia: "Advocación central salesiana muy querida en la Patagonia.",
+                origen: "Promovida fuertemente por San Juan Bosco.",
+                importancia: "María Auxiliadora es la Patrona de la Diócesis de Magallanes.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 8,
+                nombre: "Sagrado Corazón de Jesús",
+                localidad: "Punta Arenas",
+                fecha: "Junio (variable)",
+                santo: "Sagrado Corazón de Jesús",
+                actividades: "Eucaristía solemne, procesión y jornadas parroquiales.",
+                historia: "Honra el amor infinito de Cristo por la humanidad.",
+                origen: "Devoción tradicional de la Iglesia Católica.",
+                importancia: "La Catedral de Punta Arenas está dedicada al Sagrado Corazón.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 9,
+                nombre: "San Pedro y San Pablo",
+                localidad: "Varias localidades",
+                fecha: "29 de junio",
+                santo: "San Pedro y San Pablo",
+                actividades: "Misas, oraciones y bendiciones a gente de mar.",
+                historia: "Conmemora a los dos grandes apóstoles del cristianismo.",
+                origen: "Traspasada por pescadores y marinos de la región.",
+                importancia: "Especial valor en Magallanes por su conexión marítima.",
+                cat: "Otras"
+            },
+            {
+                id: 10,
+                nombre: "Santa Teresa de los Andes",
+                localidad: "Punta Arenas y región",
+                fecha: "13 de julio",
+                santo: "Santa Teresa de los Andes",
+                actividades: "Misas, oraciones y reflexiones para jóvenes.",
+                historia: "Primera santa chilena, religiosa carmelita.",
+                origen: "Canonizada en los años 90, devoción nacional.",
+                importancia: "Símbolo de fe cercana e identidad chilena.",
+                cat: "Toda la región"
+            },
+            {
+                id: 11,
+                nombre: "Virgen del Carmen",
+                localidad: "Punta Arenas, P. Williams, P. Edén",
+                fecha: "16 de julio",
+                santo: "Nuestra Señora del Carmen",
+                actividades: "Misas, novenas, rosarios y homenajes marineros.",
+                historia: "Patrona de Chile y de las Fuerzas Armadas y de Orden.",
+                origen: "Tradición colonial que perdura fuertemente.",
+                importancia: "Significado muy especial para los navegantes australes.",
+                cat: "Otras"
+            },
+            {
+                id: 12,
+                nombre: "San Alberto Hurtado",
+                localidad: "Punta Arenas y región",
+                fecha: "18 de agosto",
+                santo: "San Alberto Hurtado",
+                actividades: "Campañas solidarias, misas, ayuda social y oración.",
+                historia: "Sacerdote jesuita fundador del Hogar de Cristo.",
+                origen: "Figura clave de la solidaridad social en Chile.",
+                importancia: "Moviliza a la comunidad en torno al servicio de los más necesitados.",
+                cat: "Toda la región"
+            },
+            {
+                id: 13,
+                nombre: "Fiesta de Jesús Nazareno",
+                localidad: "Punta Arenas",
+                fecha: "Último domingo de agosto",
+                santo: "Jesús Nazareno / Virgen Dolorosa",
+                actividades: "Novena, Eucaristía, gran procesión con banderas chilotas y cantos.",
+                historia: "Devoción traída por las familias chilotas inmigrantes.",
+                origen: "Tradición profunda de Caguach (Chiloé) arraigada desde 1981 de forma oficial.",
+                importancia: "Una de las muestras de fe popular más concurridas de la Patagonia.",
+                cat: "Punta Arenas"
+            },
+            {
+                id: 14,
+                nombre: "Virgen de Montserrat",
+                localidad: "Río Verde",
+                fecha: "2° domingo de enero",
+                santo: "Virgen de Montserrat",
+                actividades: "Peregrinación a la cascada, misa de campo, bendición con agua.",
+                historia: "Punto de encuentro religioso en la grutal natural de Río Verde.",
+                origen: "Tradición de verano que congrega miles de fieles.",
+                importancia: "La principal peregrinación de religiosidad popular estival.",
+                cat: "Otras"
+            },
+            {
+                id: 15,
+                nombre: "Virgen de la Patagonia",
+                localidad: "Puerto Williams",
+                fecha: "Fecha patronal local",
+                santo: "Nuestra Señora Virgen de la Patagonia",
+                actividades: "Eucaristías, procesiones y encuentros comunitarios.",
+                historia: "Nombre oficial otorgado a la parroquia en 2022.",
+                origen: "Expresión de fe en el extremo más austral.",
+                importancia: "Identidad espiritual del territorio del Cabo de Hornos.",
+                cat: "Otras"
+            },
+            {
+                id: 16,
+                nombre: "Semana Santa",
+                localidad: "Toda la región",
+                fecha: "Marzo / Abril (variable)",
+                santo: "Jesucristo",
+                actividades: "Vía Crucis, Misa de la Cena del Señor, Vigilia Pascual.",
+                historia: "Conmemoración de la pasión, muerte y resurrección de Cristo.",
+                origen: "Corazón del calendario litúrgico cristiano.",
+                importancia: "Celebrada coordinadamente en Punta Arenas, Natales, Porvenir y Williams.",
+                cat: "Toda la región"
+            },
+            {
+                id: 17,
+                nombre: "Inmaculada Concepción",
+                localidad: "Toda la región",
+                fecha: "8 de diciembre",
+                santo: "Virgen María",
+                actividades: "Misas de mes de María, procesiones y oraciones.",
+                historia: "Dogma que celebra a María libre de pecado desde su concepción.",
+                origen: "Fiesta solemne de gran tradición en Chile.",
+                importancia: "Cierre del Mes de la Virgen en todas las parroquias.",
+                cat: "Toda la región"
+            },
+            {
+                id: 18,
+                nombre: "Navidad / Natividad",
+                localidad: "Toda la región",
+                fecha: "25 de diciembre",
+                santo: "Jesucristo / Niño Jesús",
+                actividades: "Misa del Gallo (24 dic), pesebres en vivo, villancicos.",
+                historia: "Celebración del nacimiento de Jesucristo.",
+                origen: "Pilar central de la fe cristiana mundial.",
+                importancia: "Unión familiar y comunitaria en todo Magallanes.",
+                cat: "Toda la región"
+            }
+        ];
+
+        function renderCards(data) {
+            const grid = document.getElementById('festivalsGrid');
+            grid.innerHTML = '';
+
+            data.forEach(item => {
+                let badgeClass = "tag-punta-arenas";
+                if(item.cat === "Toda la región") badgeClass = "tag-regional";
+                if(item.cat === "Otras") badgeClass = "tag-otras";
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <div class="card-title">${item.nombre}</div>
+                            <div class="card-date">${item.fecha}</div>
+                        </div>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                📍 <strong>Lugar:</strong> ${item.localidad}
+                            </div>
+                            <div class="meta-item">
+                                🏷️ <span class="badge-tag ${badgeClass}">${item.cat}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            ${item.historia}
+                        </div>
+                    </div>
+                    <button class="btn-detail" onclick="openModal(${item.id})">Ver Detalles</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterData(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = festivals;
+            if(category !== 'all') {
+                filtered = filtered.filter(f => f.cat === category);
+            }
+
+            if(searchVal) {
+                filtered = filtered.filter(f => 
+                    f.nombre.toLowerCase().includes(searchVal) ||
+                    f.santo.toLowerCase().includes(searchVal) ||
+                    f.localidad.toLowerCase().includes(searchVal) ||
+                    f.fecha.toLowerCase().includes(searchVal)
+                );
+            }
+
+            renderCards(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            const activeCategoryBtn = document.querySelector('.filter-btn.active');
+            let cat = 'all';
+            if(activeCategoryBtn.innerText.includes('Punta Arenas')) cat = 'Punta Arenas';
+            if(activeCategoryBtn.innerText.includes('Toda')) cat = 'Toda la región';
+            if(activeCategoryBtn.innerText.includes('Otras')) cat = 'Otras';
+
+            let filtered = festivals;
+            if(cat !== 'all') {
+                filtered = filtered.filter(f => f.cat === cat);
+            }
+
+            filtered = filtered.filter(f => 
+                f.nombre.toLowerCase().includes(val) ||
+                f.santo.toLowerCase().includes(val) ||
+                f.localidad.toLowerCase().includes(val) ||
+                f.fecha.toLowerCase().includes(val)
+            );
+
+            renderCards(filtered);
+        });
+
+        function openModal(id) {
+            const item = festivals.find(f => f.id === id);
+            if(!item) return;
+
+            document.getElementById('modalTitle').innerText = item.nombre;
+            document.getElementById('modalSub').innerText = `Advocación: ${item.santo}`;
+            document.getElementById('modalDateLoc').innerText = `📅 ${item.fecha} — 📍 ${item.localidad}`;
+            document.getElementById('modalHistory').innerText = `${item.historia} ${item.origen}`;
+            document.getElementById('modalActivities').innerText = item.actividades;
+            document.getElementById('modalImportance').innerText = item.importancia;
+
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        // Initialize
+        renderCards(festivals);
+    </script>
+</body>
+</html>
